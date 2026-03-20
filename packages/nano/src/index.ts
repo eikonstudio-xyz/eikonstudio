@@ -7,6 +7,7 @@
  * - {@linkcode generateGeminiImage} / {@linkcode generateImagenImage} — narrowed overloads
  * - {@linkcode editImage} / {@linkcode composeImages} — multimodal `generateContent`
  * - {@linkcode startImageChat} — multi-turn sessions
+ * - {@linkcode createAiSdkImageTool} — AI SDK-compatible tool object for image generation
  * - {@linkcode createClient} / {@linkcode NanoClient} — reuse one SDK client
  *
  * **Errors** — `NanoError` with exported `NanoErrorCode`
@@ -14,6 +15,7 @@
  * **Environment** — set `GEMINI_API_KEY` or pass `apiKey` in options.
  */
 export { NanoClient, createClient } from "./client";
+export { createAiSdkImageTool } from "./ai-sdk";
 export { NanoError } from "./errors";
 export {
   composeImages,
@@ -23,6 +25,19 @@ export {
   generateImagenImage,
   startImageChat,
 } from "./generate";
+export type {
+  CreateAiSdkImageToolOptions,
+  CreateAiSdkImageToolWithDefaultModelOptions,
+  NanoAiSdkGenerateImageInput,
+  NanoAiSdkGenerateImageResult,
+  NanoAiSdkGeneratedImage,
+  NanoAiSdkImagePart,
+  NanoAiSdkPromptInput,
+  NanoAiSdkResultPart,
+  NanoAiSdkTextPart,
+  NanoAiSdkThought,
+  NanoAiSdkTool,
+} from "./ai-sdk";
 export type {
   BaseGenerateImageOptions,
   EditImageInput,
