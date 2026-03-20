@@ -10,7 +10,19 @@ import type {
 } from "./types";
 
 /**
- * Generate an image from a prompt with either a Gemini image model or an Imagen model.
+ * Generate an image from a text prompt. Model prefix selects the API:
+ *
+ * - `gemini-*` → `generateContent` (native Gemini image)
+ * - `imagen-*` → `generateImages` (Imagen)
+ *
+ * Each call constructs a short-lived {@linkcode NanoClient}. For many requests, use
+ * {@linkcode createClient} once and call {@linkcode NanoClient.generateImage}.
+ *
+ * @param model - Gemini or Imagen model id
+ * @param prompt - Natural-language image description
+ * @param options - Merged into client options and branch-specific config (overload narrows by model)
+ * @returns Normalized {@linkcode GenerateImageResult} with `images`, `parts`, and `raw`
+ * @throws Failures surface as `NanoError` with a stable `code` (see exported `NanoErrorCode`).
  *
  * @example
  * ```ts
@@ -41,7 +53,13 @@ export function generateImage(
 }
 
 /**
- * Generate an image with a Gemini image model and Gemini-specific options.
+ * Same as {@linkcode generateImage} but requires a `gemini-*` model for stricter typings.
+ *
+ * @param model - Gemini image model (e.g. `gemini-2.5-flash-image`)
+ * @param prompt - Image description
+ * @param options - {@linkcode GeminiGenerateImageOptions}: aspect ratio, image size, grounding,
+ *   thinking, `responseModalities`, and optional {@linkcode GeminiSdkConfig}
+ * @returns {@linkcode GenerateImageResult} with `provider: "gemini"`
  *
  * @example
  * ```ts
@@ -62,7 +80,13 @@ export function generateGeminiImage(
 }
 
 /**
- * Generate an image with an Imagen model and Imagen-specific options.
+ * Same as {@linkcode generateImage} but requires an `imagen-*` model for stricter typings.
+ *
+ * @param model - Imagen model id
+ * @param prompt - Image description
+ * @param options - {@linkcode ImagenGenerateImageOptions}: batch size, negative prompt, output
+ *   MIME type, safety, etc., plus optional {@linkcode ImagenSdkConfig}
+ * @returns {@linkcode GenerateImageResult} with `provider: "imagen"`
  *
  * @example
  * ```ts
@@ -83,7 +107,13 @@ export function generateImagenImage(
 }
 
 /**
- * Edit an existing image with a Gemini image model.
+ * Send one or more reference images plus an instruction to a Gemini image model.
+ *
+ * @param model - Gemini image model
+ * @param input - `images` (non-empty) and editing `prompt`
+ * @param options - Same as {@linkcode generateGeminiImage}
+ * @returns Normalized result; final pixels in `images`
+ * @throws `NanoError` if the API returns no image or input is invalid
  *
  * @example
  * ```ts
@@ -104,7 +134,12 @@ export function editImage(
 }
 
 /**
- * Compose a new image from multiple input images with a Gemini image model.
+ * Combine multiple reference images into one output (e.g. product + model). Same transport as
+ * {@linkcode editImage}; naming reflects intent only.
+ *
+ * @param model - Gemini image model
+ * @param input - Multiple `images` and a composition `prompt`
+ * @param options - Gemini generation options
  *
  * @example
  * ```ts
@@ -128,7 +163,15 @@ export function composeImages(
 }
 
 /**
- * Start a multi-turn image chat session for iterative editing and grounded image workflows.
+ * Start a multi-turn chat (`chats.create` + `sendMessage`) for iterative image generation or edits.
+ *
+ * @param model - Gemini image model
+ * @param options - Session defaults (modalities, tools, `imageConfig`, thinking)
+ * @returns {@linkcode NanoImageChat} with `send(input, options?)` per turn
+ *
+ * @remarks
+ * Per-request `config` in `send()` does not inherit the chat's initial `config` in the SDK.
+ * Repeat needed fields on each `send` when required.
  *
  * @example
  * ```ts
