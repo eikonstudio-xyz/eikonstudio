@@ -1,6 +1,6 @@
 {
   "name": "@eikonstudio/nano",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Strongly typed image generation helpers for Google's Gemini and Imagen APIs",
   "type": "module",
   "main": "./dist/index.cjs",

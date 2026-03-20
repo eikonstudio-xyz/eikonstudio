@@ -1,5 +1,12 @@
 # @eikonstudio/nano
 
+## 0.3.0
+
+### Minor Changes
+
+- [#4](https://github.com/eikonstudio-xyz/eikonstudio/pull/4) [`cd2b717`](https://github.com/eikonstudio-xyz/eikonstudio/commit/cd2b717abe5af8d832c128ddf2f47e6b542ec367) Thanks [@MohtashamMurshid](https://github.com/MohtashamMurshid)! - Add `createAiSdkImageTool` so `@eikonstudio/nano` can be passed directly into AI SDK tool
+  definitions with a JSON-safe image result shape.
+
 ## 0.2.0
 
 ### Minor Changes

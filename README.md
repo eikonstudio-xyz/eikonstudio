@@ -7,7 +7,7 @@ Monorepo for all [@eikonstudio](https://www.npmjs.com/org/eikonstudio) packages.
 | Package | Version | Description |
 |---------|---------|-------------|
 | [`@eikonstudio/config`](./packages/config) | [![npm](https://img.shields.io/npm/v/@eikonstudio/config)](https://www.npmjs.com/package/@eikonstudio/config) | Shared configuration |
-| [`@eikonstudio/nano`](./packages/nano) | Pending first release | Strongly typed Gemini and Imagen image generation helpers |
+| [`@eikonstudio/nano`](./packages/nano) | [![npm](https://img.shields.io/npm/v/@eikonstudio/nano)](https://www.npmjs.com/package/@eikonstudio/nano) | Strongly typed Gemini and Imagen image generation helpers |
 
 ## Getting Started
 
