@@ -70,6 +70,14 @@ describe("toGeminiContents", () => {
 });
 
 describe("buildGeminiConfig", () => {
+  test("defaults to text and image modalities without options", () => {
+    const config = buildGeminiConfig(undefined);
+
+    expect(config).toEqual({
+      responseModalities: ["TEXT", "IMAGE"],
+    });
+  });
+
   test("maps ergonomic options to SDK config", () => {
     const config = buildGeminiConfig({
       aspectRatio: "16:9",
@@ -89,7 +97,7 @@ describe("buildGeminiConfig", () => {
       seed: 42,
       thinkingConfig: {
         includeThoughts: true,
-        thinkingLevel: "High",
+        thinkingLevel: "HIGH",
       },
       tools: [
         {
@@ -112,6 +120,17 @@ describe("buildGeminiConfig", () => {
 
     expect(config?.responseModalities).toEqual(["IMAGE"]);
     expect(config?.tools).toEqual([{ googleSearch: {} }]);
+  });
+
+  test("maps minimal thinking level to the SDK enum", () => {
+    const config = buildGeminiConfig({
+      thinkingLevel: "minimal",
+    });
+
+    expect(config.thinkingConfig).toEqual({
+      thinkingLevel: "MINIMAL",
+      includeThoughts: undefined,
+    });
   });
 });
 

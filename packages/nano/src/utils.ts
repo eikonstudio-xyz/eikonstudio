@@ -5,7 +5,7 @@ import type {
   GoogleSearch,
   SearchTypes,
 } from "@google/genai";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 
 import { NanoError } from "./errors";
 import type {
@@ -21,7 +21,6 @@ import type {
   NanoGoogleSearchOptions,
   NanoImageInput,
   NanoImageModel,
-  NanoProvider,
   NanoResultPart,
   NanoThinkingLevel,
 } from "./types";
@@ -108,18 +107,16 @@ export function toGeminiContents(
   return input.prompt;
 }
 
-function normalizeThinkingLevel(
-  level: NanoThinkingLevel | undefined,
-): "High" | "minimal" | undefined {
+function normalizeThinkingLevel(level: NanoThinkingLevel | undefined): ThinkingLevel | undefined {
   if (!level) {
     return undefined;
   }
 
   if (level === "high" || level === "High") {
-    return "High";
+    return ThinkingLevel.HIGH;
   }
 
-  return "minimal";
+  return ThinkingLevel.MINIMAL;
 }
 
 function buildSearchTypes(
@@ -166,42 +163,38 @@ function buildGoogleSearchTool(
 
 export function buildGeminiConfig(
   options: GeminiGenerateImageOptions | undefined,
-): GenerateContentConfig | undefined {
-  if (!options) {
-    return undefined;
-  }
-
+): GenerateContentConfig {
   const config: GenerateContentConfig = {
-    ...options.config,
+    ...(options?.config ?? {}),
   };
 
-  if (options.responseModalities && options.responseModalities.length > 0) {
+  if (options?.responseModalities && options.responseModalities.length > 0) {
     config.responseModalities = options.responseModalities;
   } else {
     config.responseModalities = [...DEFAULT_GEMINI_RESPONSE_MODALITIES];
   }
 
-  if (options.aspectRatio || options.imageSize) {
+  if (options?.aspectRatio || options?.imageSize) {
     config.imageConfig = {
-      aspectRatio: options.aspectRatio,
-      imageSize: options.imageSize,
+      aspectRatio: options?.aspectRatio,
+      imageSize: options?.imageSize,
     };
   }
 
-  const thinkingLevel = normalizeThinkingLevel(options.thinkingLevel);
-  if (thinkingLevel || options.includeThoughts !== undefined) {
+  const thinkingLevel = normalizeThinkingLevel(options?.thinkingLevel);
+  if (thinkingLevel || options?.includeThoughts !== undefined) {
     config.thinkingConfig = {
       thinkingLevel,
-      includeThoughts: options.includeThoughts,
+      includeThoughts: options?.includeThoughts,
     };
   }
 
-  const googleSearchTools = buildGoogleSearchTool(options.googleSearch);
+  const googleSearchTools = buildGoogleSearchTool(options?.googleSearch);
   if (googleSearchTools) {
     config.tools = [...(config.tools ?? []), ...googleSearchTools];
   }
 
-  if (options.seed !== undefined) {
+  if (options?.seed !== undefined) {
     config.seed = options.seed;
   }
 
@@ -371,10 +364,4 @@ export function normalizeImagenResponse(
     groundingMetadata: undefined,
     raw: response,
   };
-}
-
-export function assertProviderSupportsImages(provider: NanoProvider, images: NanoGeneratedImage[]) {
-  if (images.length === 0) {
-    throw new NanoError("NO_IMAGE_GENERATED", `${provider} returned an empty image response.`);
-  }
 }
