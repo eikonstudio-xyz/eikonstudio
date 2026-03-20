@@ -1,0 +1,43 @@
+{
+  "name": "@eikonstudio/nano",
+  "version": "0.1.0",
+  "description": "Strongly typed image generation helpers for Google's Gemini and Imagen APIs",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "lint": "eslint src/",
+    "dev": "tsup --watch",
+    "test": "bun test",
+    "test:live": "bun test src/live.test.ts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eikonstudio-xyz/eikonstudio.git",
+    "directory": "packages/nano"
+  },
+  "dependencies": {
+    "@google/genai": "^1.46.0"
+  }
+}
