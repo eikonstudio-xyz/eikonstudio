@@ -148,7 +148,7 @@ export class NanoClient {
         input: EditImageInput | GenerateFromPromptInput | string,
         sendOptions?: GeminiGenerateImageOptions,
       ) => {
-        const config = buildGeminiConfig(sendOptions);
+        const config = sendOptions ? buildGeminiConfig(sendOptions) : undefined;
 
         const response = await chat.sendMessage({
           message: toGeminiContents(input),
