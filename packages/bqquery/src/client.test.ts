@@ -51,6 +51,27 @@ describe("BqClient.query", () => {
     });
   });
 
+  test("treats ambiguous option-like keys as named params when SQL references them", async () => {
+    const { client, query } = createClientWithMockQuery(async () => [[{ location: "NYC" }]]);
+
+    await client.query("select @location as location", {
+      location: "NYC",
+    });
+
+    expect(query).toHaveBeenCalledWith({
+      defaultDataset: {
+        datasetId: "analytics",
+        projectId: "demo-project",
+      },
+      dryRun: false,
+      location: "US",
+      maximumBytesBilled: "5000",
+      params: { location: "NYC" },
+      query: "select @location as location",
+      useLegacySql: false,
+    });
+  });
+
   test("supports positional params arrays", async () => {
     const { client, query } = createClientWithMockQuery(async () => [[{ id: "u_1" }]]);
 
@@ -88,6 +109,27 @@ describe("BqClient.query", () => {
       query: "select count(*) as total from users",
       types: { active: "BOOL" },
       useLegacySql: true,
+    });
+  });
+
+  test("still accepts explicit per-query options with ambiguous keys", async () => {
+    const { client, query } = createClientWithMockQuery(async () => [[{ total: 7 }]]);
+
+    await client.query("select 1 as total", {
+      location: "EU",
+    });
+
+    expect(query).toHaveBeenCalledWith({
+      defaultDataset: {
+        datasetId: "analytics",
+        projectId: "demo-project",
+      },
+      dryRun: false,
+      location: "EU",
+      maximumBytesBilled: "5000",
+      params: undefined,
+      query: "select 1 as total",
+      useLegacySql: false,
     });
   });
 });

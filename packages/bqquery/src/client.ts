@@ -147,7 +147,7 @@ export class BqClient {
   }
 
   private toQueryRequest(sql: string, paramsOrOptions?: BqQueryInput): Query {
-    const options = normalizeQueryInput(paramsOrOptions);
+    const options = normalizeQueryInput(sql, paramsOrOptions);
     const { dataset: datasetOverride, ...queryOptions } = options;
     const dataset = datasetOverride ?? this.defaults.dataset;
 
@@ -186,15 +186,25 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function isQueryOptions(value: BqQueryInput): value is BqQueryOptions {
+function isQueryOptions(sql: string, value: BqQueryInput): value is BqQueryOptions {
   if (!isPlainObject(value)) {
     return false;
   }
 
-  return [...QUERY_OPTION_KEYS].some((key) => key in value);
+  if ("params" in value) {
+    return true;
+  }
+
+  const optionKeys = Object.keys(value).filter((key) => QUERY_OPTION_KEYS.has(key));
+  if (optionKeys.length === 0) {
+    return false;
+  }
+
+  const namedParameterNames = getNamedParameterNames(sql);
+  return !optionKeys.some((key) => namedParameterNames.has(key));
 }
 
-function normalizeQueryInput(input: BqQueryInput): BqQueryOptions {
+function normalizeQueryInput(sql: string, input: BqQueryInput): BqQueryOptions {
   if (typeof input === "undefined") {
     return {};
   }
@@ -203,7 +213,7 @@ function normalizeQueryInput(input: BqQueryInput): BqQueryOptions {
     return { params: input };
   }
 
-  if (isQueryOptions(input)) {
+  if (isQueryOptions(sql, input)) {
     return input;
   }
 
@@ -212,6 +222,14 @@ function normalizeQueryInput(input: BqQueryInput): BqQueryOptions {
   }
 
   return { params: input };
+}
+
+function getNamedParameterNames(sql: string): Set<string> {
+  return new Set(
+    [...sql.matchAll(/@([A-Za-z_][A-Za-z0-9_]*)/g)].flatMap((match) =>
+      match[1] ? [match[1]] : [],
+    ),
+  );
 }
 
 function toDatasetReference(datasetId: string, projectId?: string) {

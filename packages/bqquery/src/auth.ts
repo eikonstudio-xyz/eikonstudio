@@ -53,6 +53,10 @@ export function decodeBase64Credentials(
 
     return parseServiceAccountCredentials(decodedJson);
   } catch (error) {
+    if (error instanceof BqError) {
+      throw error;
+    }
+
     throw new BqError(
       "INVALID_CREDENTIALS_BASE64",
       "Invalid base64 credentials. Pass a base64-encoded Google service-account JSON string.",

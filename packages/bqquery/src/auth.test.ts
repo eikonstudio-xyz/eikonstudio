@@ -40,14 +40,35 @@ describe("decodeBase64Credentials", () => {
     expect(decodeBase64Credentials(base64)).toEqual(credentials);
   });
 
-  test("throws a typed error for invalid base64/json input", () => {
+  test("preserves typed JSON parsing errors for malformed decoded content", () => {
     try {
       decodeBase64Credentials("not-valid-base64");
       throw new Error("Expected decodeBase64Credentials to throw");
     } catch (error) {
       expect(error).toBeInstanceOf(BqError);
-      expect((error as BqError).code).toBe("INVALID_CREDENTIALS_BASE64");
+      expect((error as BqError).code).toBe("INVALID_CREDENTIALS_JSON");
     }
+  });
+
+  test("preserves the empty decoded value error message", () => {
+    const emptyBase64 = Buffer.from("").toString("base64");
+
+    expect(() => decodeBase64Credentials(emptyBase64)).toThrow(
+      "Invalid base64 credentials. The decoded value was empty.",
+    );
+  });
+
+  test("preserves missing required field validation details", () => {
+    const invalidCredentials = Buffer.from(
+      JSON.stringify({
+        client_email: credentials.client_email,
+        project_id: credentials.project_id,
+      }),
+    ).toString("base64");
+
+    expect(() => decodeBase64Credentials(invalidCredentials)).toThrow(
+      'Invalid Google service-account credentials. Missing required field "private_key".',
+    );
   });
 });
 
