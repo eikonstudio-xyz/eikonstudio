@@ -155,7 +155,7 @@ export class NanoClient {
           config,
         });
 
-        return normalizeGeminiResponse(model, response);
+        return normalizeGeminiResponse(model, response, { allowEmptyImages: true });
       },
     };
   }

@@ -19,6 +19,16 @@ const chatResponse = {
   ],
 } as const;
 
+const textOnlyChatResponse = {
+  candidates: [
+    {
+      content: {
+        parts: [{ text: "Can you upload a reference image first?" }],
+      },
+    },
+  ],
+} as const;
+
 describe("NanoClient.startImageChat", () => {
   test("keeps chat-level config when send options are omitted", async () => {
     const sendMessage = mock(async () => chatResponse as never);
@@ -57,5 +67,27 @@ describe("NanoClient.startImageChat", () => {
       message: "Make it cinematic",
       config: undefined,
     });
+  });
+
+  test("returns text-only intermediate chat responses without throwing", async () => {
+    const sendMessage = mock(async () => textOnlyChatResponse as never);
+    const create = mock(() => ({ sendMessage }));
+    const client = Object.create(NanoClient.prototype) as NanoClient;
+
+    Object.defineProperty(client, "ai", {
+      value: {
+        chats: {
+          create,
+        },
+      },
+    });
+
+    const chat = client.startImageChat("gemini-3.1-flash-image-preview");
+    const result = await chat.send("What do you need from me?");
+
+    expect(result.text).toBe("Can you upload a reference image first?");
+    expect(result.texts).toEqual(["Can you upload a reference image first?"]);
+    expect(result.images).toEqual([]);
+    expect(result.parts).toHaveLength(1);
   });
 });

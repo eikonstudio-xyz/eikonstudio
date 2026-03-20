@@ -279,6 +279,7 @@ function pushTextPart(
 export function normalizeGeminiResponse(
   model: NanoImageModel,
   response: GenerateContentResponse,
+  options?: { allowEmptyImages?: boolean },
 ): GenerateImageResult {
   const parts: NanoResultPart[] = [];
   const images: NanoGeneratedImage[] = [];
@@ -306,7 +307,7 @@ export function normalizeGeminiResponse(
     }
   }
 
-  if (images.length === 0) {
+  if (images.length === 0 && options?.allowEmptyImages !== true) {
     throw new NanoError("NO_IMAGE_GENERATED", `Model "${model}" returned no final image output.`, {
       cause: response,
     });

@@ -45,5 +45,6 @@ export type {
   NanoRawResponse,
   NanoResponseModality,
   NanoResultPart,
+  NanoThought,
   NanoThinkingLevel,
 } from "./types";

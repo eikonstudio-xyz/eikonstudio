@@ -220,6 +220,28 @@ describe("response normalization", () => {
     ).toThrow(NanoError);
   });
 
+  test("allows text-only gemini responses when empty images are allowed", () => {
+    const result = normalizeGeminiResponse(
+      "gemini-3.1-flash-image-preview",
+      {
+        candidates: [
+          {
+            content: {
+              parts: [{ text: "text only" }],
+            },
+          },
+        ],
+      } as never,
+      { allowEmptyImages: true },
+    );
+
+    expect(result.text).toBe("text only");
+    expect(result.texts).toEqual(["text only"]);
+    expect(result.images).toEqual([]);
+    expect(result.thoughts).toEqual([]);
+    expect(result.parts).toHaveLength(1);
+  });
+
   test("normalizes imagen image arrays", () => {
     const response = {
       generatedImages: [
