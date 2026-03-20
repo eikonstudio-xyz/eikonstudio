@@ -1,11 +1,7 @@
 import type { BigQueryOptions } from "@google-cloud/bigquery";
 
 import { BqError } from "./errors";
-import type {
-  BqClientDefaults,
-  BqClientOptions,
-  GoogleServiceAccountCredentials,
-} from "./types";
+import type { BqClientDefaults, BqClientOptions, GoogleServiceAccountCredentials } from "./types";
 
 const REQUIRED_SERVICE_ACCOUNT_FIELDS = ["client_email", "private_key", "project_id"] as const;
 

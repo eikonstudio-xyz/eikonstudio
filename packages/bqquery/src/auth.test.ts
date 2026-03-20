@@ -56,9 +56,9 @@ describe("resolveCredentials", () => {
     expect(
       resolveCredentials({
         credentials,
-        credentialsBase64: Buffer.from(JSON.stringify({ ...credentials, project_id: "ignored" })).toString(
-          "base64",
-        ),
+        credentialsBase64: Buffer.from(
+          JSON.stringify({ ...credentials, project_id: "ignored" }),
+        ).toString("base64"),
       }),
     ).toEqual(credentials);
   });

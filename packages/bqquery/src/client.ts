@@ -3,7 +3,14 @@ import type { Query } from "@google-cloud/bigquery";
 
 import { resolveClientSetup } from "./auth";
 import { BqError } from "./errors";
-import type { BqClientDefaults, BqClientOptions, BqQueryInput, BqQueryOptions, BqQueryParams, BqRow } from "./types";
+import type {
+  BqClientDefaults,
+  BqClientOptions,
+  BqQueryInput,
+  BqQueryOptions,
+  BqQueryParams,
+  BqRow,
+} from "./types";
 
 const QUERY_OPTION_KEYS = new Set<string>([
   "connectionProperties",
@@ -103,7 +110,10 @@ export class BqClient {
    * @param paramsOrOptions - Query params directly, or an options object for advanced control
    * @returns The first row typed as `T`, or `null`
    */
-  async one<T extends BqRow = BqRow>(sql: string, paramsOrOptions?: BqQueryInput): Promise<T | null> {
+  async one<T extends BqRow = BqRow>(
+    sql: string,
+    paramsOrOptions?: BqQueryInput,
+  ): Promise<T | null> {
     const rows = await this.query<T>(sql, paramsOrOptions);
     return rows[0] ?? null;
   }
@@ -181,7 +191,7 @@ function isQueryOptions(value: BqQueryInput): value is BqQueryOptions {
     return false;
   }
 
-  return [...QUERY_OPTION_KEYS].some(key => key in value);
+  return [...QUERY_OPTION_KEYS].some((key) => key in value);
 }
 
 function normalizeQueryInput(input: BqQueryInput): BqQueryOptions {

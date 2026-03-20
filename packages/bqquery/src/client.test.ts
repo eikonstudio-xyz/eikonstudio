@@ -32,10 +32,9 @@ describe("BqClient.query", () => {
   test("treats a plain object as named params in the common case", async () => {
     const { client, query } = createClientWithMockQuery(async () => [[{ id: "u_1" }]]);
 
-    const rows = await client.query<{ id: string }>(
-      "select id from users where id = @id",
-      { id: "u_1" },
-    );
+    const rows = await client.query<{ id: string }>("select id from users where id = @id", {
+      id: "u_1",
+    });
 
     expect(rows).toEqual([{ id: "u_1" }]);
     expect(query).toHaveBeenCalledWith({
@@ -116,7 +115,9 @@ describe("BqClient.value", () => {
 
   test("returns null when the query has no rows", async () => {
     const { client } = createClientWithMockQuery(async () => [[]]);
-    await expect(client.value("select count(*) as total from users where false")).resolves.toBeNull();
+    await expect(
+      client.value("select count(*) as total from users where false"),
+    ).resolves.toBeNull();
   });
 
   test("throws when the first row has no columns", async () => {

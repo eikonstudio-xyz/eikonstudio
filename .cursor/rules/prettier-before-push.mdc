@@ -1,0 +1,21 @@
+---
+description: Run Prettier check and fix formatting before push
+alwaysApply: true
+---
+
+# Prettier Before Push
+
+Before pushing or opening/updating a PR, make sure formatting passes.
+
+- After code edits, run `bun run format:check` from the repo root before push.
+- If formatting fails, fix it before push.
+- Prefer formatting only the changed files with `bunx prettier --write <files>`.
+- Re-run `bun run format:check` after fixing formatting.
+- Do not leave the branch in a state where Prettier is failing.
+
+Example:
+
+```bash
+bunx prettier --write packages/bqquery/src/client.ts
+bun run format:check
+```

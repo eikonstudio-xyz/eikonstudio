@@ -74,11 +74,16 @@ export interface BqClientOptions {
  * Pass a plain object like `{ id: "123" }` for the common named-parameter case, or use this
  * object form when you need query options such as `location`, `types`, or `dryRun`.
  */
-export interface BqQueryOptions
-  extends Omit<
-    Query,
-    "defaultDataset" | "dryRun" | "location" | "maximumBytesBilled" | "params" | "query" | "useLegacySql"
-  > {
+export interface BqQueryOptions extends Omit<
+  Query,
+  | "defaultDataset"
+  | "dryRun"
+  | "location"
+  | "maximumBytesBilled"
+  | "params"
+  | "query"
+  | "useLegacySql"
+> {
   /** Named or positional SQL parameters. */
   params?: BqQueryParams;
   /** Optional type hints for parameterized queries. */
