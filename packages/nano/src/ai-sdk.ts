@@ -241,7 +241,7 @@ export function createAiSdkImageTool(
       }
 
       const result = await createClient(options.generationOptions).generateImage(
-        model,
+        model as never,
         input.prompt,
         options.generationOptions as never,
       );

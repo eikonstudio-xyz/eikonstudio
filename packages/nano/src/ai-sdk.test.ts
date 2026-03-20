@@ -144,7 +144,11 @@ describe("createAiSdkImageTool", () => {
   test("requires model input when no default model is configured", async () => {
     const generateSpy = spyOn(NanoClient.prototype, "generateImage").mockResolvedValue(fakeResult);
 
-    const tool = createAiSdkImageTool();
+    const tool = createAiSdkImageTool({
+      generationOptions: {
+        apiKey: "test-key",
+      },
+    });
 
     expect(tool.inputSchema).toEqual({
       type: "object",
@@ -175,7 +179,9 @@ describe("createAiSdkImageTool", () => {
     expect(generateSpy).toHaveBeenCalledWith(
       "imagen-4.0-generate-001",
       "A clean ecommerce shot of a futuristic banana blender.",
-      undefined,
+      expect.objectContaining({
+        apiKey: "test-key",
+      }),
     );
   });
 });
