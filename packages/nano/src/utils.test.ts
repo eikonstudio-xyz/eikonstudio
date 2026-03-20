@@ -171,10 +171,7 @@ describe("response normalization", () => {
       ],
     };
 
-    const result = normalizeGeminiResponse(
-      "gemini-3.1-flash-image-preview",
-      response as never,
-    );
+    const result = normalizeGeminiResponse("gemini-3.1-flash-image-preview", response as never);
 
     expect(result.provider).toBe("gemini");
     expect(result.text).toBe("caption");
@@ -192,18 +189,15 @@ describe("response normalization", () => {
 
   test("throws when gemini returns no final images", () => {
     expect(() =>
-      normalizeGeminiResponse(
-        "gemini-3.1-flash-image-preview",
-        {
-          candidates: [
-            {
-              content: {
-                parts: [{ text: "text only" }],
-              },
+      normalizeGeminiResponse("gemini-3.1-flash-image-preview", {
+        candidates: [
+          {
+            content: {
+              parts: [{ text: "text only" }],
             },
-          ],
-        } as never,
-      ),
+          },
+        ],
+      } as never),
     ).toThrow(NanoError);
   });
 

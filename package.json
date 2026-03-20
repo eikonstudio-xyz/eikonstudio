@@ -1,7 +1,9 @@
 {
   "name": "eikonstudio",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "turbo run build",
     "lint": "turbo run lint",

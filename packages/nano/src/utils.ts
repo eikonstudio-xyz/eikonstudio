@@ -49,10 +49,7 @@ export function getApiKey(options?: NanoClientOptions): string {
   const apiKey = options?.apiKey ?? process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY;
 
   if (!apiKey) {
-    throw new NanoError(
-      "MISSING_API_KEY",
-      "Missing API key. Pass apiKey or set GEMINI_API_KEY.",
-    );
+    throw new NanoError("MISSING_API_KEY", "Missing API key. Pass apiKey or set GEMINI_API_KEY.");
   }
 
   return apiKey;
@@ -76,9 +73,7 @@ export function toBuffer(data: NanoImageInput["data"]): Buffer {
   }
 
   if (typeof data === "string") {
-    const base64Data = data.startsWith("data:")
-      ? data.slice(data.indexOf(",") + 1)
-      : data;
+    const base64Data = data.startsWith("data:") ? data.slice(data.indexOf(",") + 1) : data;
 
     return Buffer.from(base64Data, "base64");
   }
@@ -113,7 +108,9 @@ export function toGeminiContents(
   return input.prompt;
 }
 
-function normalizeThinkingLevel(level: NanoThinkingLevel | undefined): "High" | "minimal" | undefined {
+function normalizeThinkingLevel(
+  level: NanoThinkingLevel | undefined,
+): "High" | "minimal" | undefined {
   if (!level) {
     return undefined;
   }
@@ -317,11 +314,9 @@ export function normalizeGeminiResponse(
   }
 
   if (images.length === 0) {
-    throw new NanoError(
-      "NO_IMAGE_GENERATED",
-      `Model "${model}" returned no final image output.`,
-      { cause: response },
-    );
+    throw new NanoError("NO_IMAGE_GENERATED", `Model "${model}" returned no final image output.`, {
+      cause: response,
+    });
   }
 
   const firstGroundedCandidate = response.candidates?.find(
@@ -360,11 +355,9 @@ export function normalizeImagenResponse(
       .filter((image): image is NanoGeneratedImage => image !== undefined) ?? [];
 
   if (images.length === 0) {
-    throw new NanoError(
-      "NO_IMAGE_GENERATED",
-      `Model "${model}" returned no generated images.`,
-      { cause: response },
-    );
+    throw new NanoError("NO_IMAGE_GENERATED", `Model "${model}" returned no generated images.`, {
+      cause: response,
+    });
   }
 
   return {
@@ -382,9 +375,6 @@ export function normalizeImagenResponse(
 
 export function assertProviderSupportsImages(provider: NanoProvider, images: NanoGeneratedImage[]) {
   if (images.length === 0) {
-    throw new NanoError(
-      "NO_IMAGE_GENERATED",
-      `${provider} returned an empty image response.`,
-    );
+    throw new NanoError("NO_IMAGE_GENERATED", `${provider} returned an empty image response.`);
   }
 }

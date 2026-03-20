@@ -48,7 +48,11 @@ export class NanoClient {
     options?: GeminiGenerateImageOptions | ImagenGenerateImageOptions,
   ): Promise<GenerateImageResult> {
     if (isGeminiModel(model)) {
-      return this.generateGemini(model, { prompt }, options as GeminiGenerateImageOptions | undefined);
+      return this.generateGemini(
+        model,
+        { prompt },
+        options as GeminiGenerateImageOptions | undefined,
+      );
     }
 
     if (isImagenModel(model)) {
@@ -80,10 +84,7 @@ export class NanoClient {
     return this.generateGemini(model, input, options);
   }
 
-  startImageChat(
-    model: GeminiImageModel,
-    options?: GeminiGenerateImageOptions,
-  ): NanoImageChat {
+  startImageChat(model: GeminiImageModel, options?: GeminiGenerateImageOptions): NanoImageChat {
     const chat = this.ai.chats.create({
       model,
       config: buildGeminiConfig(options),
