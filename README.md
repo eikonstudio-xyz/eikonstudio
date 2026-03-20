@@ -7,6 +7,7 @@ Monorepo for all [@eikonstudio](https://www.npmjs.com/org/eikonstudio) packages.
 | Package | Version | Description |
 |---------|---------|-------------|
 | [`@eikonstudio/config`](./packages/config) | [![npm](https://img.shields.io/npm/v/@eikonstudio/config)](https://www.npmjs.com/package/@eikonstudio/config) | Shared configuration |
+| [`@eikonstudio/nano`](./packages/nano) | Pending first release | Strongly typed Gemini and Imagen image generation helpers |
 
 ## Getting Started
 
@@ -106,7 +107,8 @@ eikonstudio/
 ├── .changeset/          # Changesets config and pending changesets
 ├── .github/workflows/   # CI and release automation
 ├── packages/
-│   └── config/          # @eikonstudio/config
+│   ├── config/          # @eikonstudio/config
+│   └── nano/            # @eikonstudio/nano
 ├── turbo.json           # Turborepo pipeline config
 ├── tsconfig.json        # Base TypeScript config
 ├── eslint.config.mjs    # ESLint config
