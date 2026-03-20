@@ -19,7 +19,7 @@ Monorepo for all [@eikonstudio](https://www.npmjs.com/org/eikonstudio) packages.
 
 ```bash
 # Clone the repo
-git clone https://github.com/eikonstudio/eikonstudio.git
+git clone https://github.com/eikonstudio-xyz/eikonstudio.git
 cd eikonstudio
 
 # Install dependencies
