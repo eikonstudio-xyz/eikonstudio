@@ -33,6 +33,42 @@ console.log(result.images[0]?.mimeType);
 console.log(result.images[0]?.buffer);
 ```
 
+## AI SDK Tool
+
+`createAiSdkImageTool()` returns a plain tool object that matches the AI SDK `tools` contract
+(`description`, `inputSchema`, and `execute`), so you can pass it directly to `generateText()` or
+`streamText()`.
+
+```ts
+import { generateText } from "ai";
+import { openai } from "@ai-sdk/openai";
+import { createAiSdkImageTool } from "@eikonstudio/nano";
+
+const result = await generateText({
+  model: openai("gpt-5"),
+  prompt: "Create a product image tool call for a luxury banana perfume ad.",
+  tools: {
+    generateProductImage: createAiSdkImageTool({
+      defaultModel: "gemini-3.1-flash-image-preview",
+      generationOptions: {
+        apiKey: process.env.GEMINI_API_KEY,
+        responseModalities: ["TEXT", "IMAGE"],
+      },
+    }),
+  },
+});
+```
+
+If you omit `defaultModel`, the tool input must include both `model` and `prompt`.
+
+The tool result is JSON-safe:
+
+- generated images are returned as base64 + MIME type
+- `buffer` fields are removed
+- the raw provider response is omitted
+
+That makes it safer to forward through AI SDK multi-step tool calls.
+
 ## API
 
 ### `generateImage()`
@@ -156,6 +192,22 @@ const result = await nano.generateImage(
   "gemini-2.5-flash-image",
   "A futuristic banana spacecraft",
 );
+```
+
+### `createAiSdkImageTool()`
+
+Create an AI SDK-compatible tool backed by Nano's `generateImage()` helper.
+
+```ts
+import { createAiSdkImageTool } from "@eikonstudio/nano";
+
+const generateImageTool = createAiSdkImageTool({
+  defaultModel: "imagen-4.0-generate-001",
+  generationOptions: {
+    apiKey: process.env.GEMINI_API_KEY,
+    numberOfImages: 1,
+  },
+});
 ```
 
 ## Result Shape
