@@ -8,6 +8,7 @@ Monorepo for all [@eikonstudio](https://www.npmjs.com/org/eikonstudio) packages.
 |---------|---------|-------------|
 | [`@eikonstudio/config`](./packages/config) | [![npm](https://img.shields.io/npm/v/@eikonstudio/config)](https://www.npmjs.com/package/@eikonstudio/config) | Shared configuration |
 | [`@eikonstudio/nano`](./packages/nano) | [![npm](https://img.shields.io/npm/v/@eikonstudio/nano)](https://www.npmjs.com/package/@eikonstudio/nano) | Strongly typed Gemini and Imagen image generation helpers |
+| [`@eikonstudio/variant`](./packages/variant) | [![npm](https://img.shields.io/npm/v/@eikonstudio/variant)](https://www.npmjs.com/package/@eikonstudio/variant) | React helpers for switching between full landing page variants |
 
 ## Getting Started
 
@@ -108,7 +109,8 @@ eikonstudio/
 ├── .github/workflows/   # CI and release automation
 ├── packages/
 │   ├── config/          # @eikonstudio/config
-│   └── nano/            # @eikonstudio/nano
+│   ├── nano/            # @eikonstudio/nano
+│   └── variant/         # @eikonstudio/variant
 ├── turbo.json           # Turborepo pipeline config
 ├── tsconfig.json        # Base TypeScript config
 ├── eslint.config.mjs    # ESLint config
