@@ -1,6 +1,6 @@
 {
   "name": "@eikonstudio/ports",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Name, inspect, and close open local TCP ports with memorable aliases",
   "type": "module",
   "main": "./dist/index.cjs",
