@@ -8,6 +8,7 @@ Monorepo for all [@eikonstudio](https://www.npmjs.com/org/eikonstudio) packages.
 |---------|---------|-------------|
 | [`@eikonstudio/config`](./packages/config) | [![npm](https://img.shields.io/npm/v/@eikonstudio/config)](https://www.npmjs.com/package/@eikonstudio/config) | Shared configuration |
 | [`@eikonstudio/nano`](./packages/nano) | [![npm](https://img.shields.io/npm/v/@eikonstudio/nano)](https://www.npmjs.com/package/@eikonstudio/nano) | Strongly typed Gemini and Imagen image generation helpers |
+| [`@eikonstudio/ports`](./packages/ports) | [![npm](https://img.shields.io/npm/v/@eikonstudio/ports)](https://www.npmjs.com/package/@eikonstudio/ports) | Name, inspect, and close open local TCP ports with memorable aliases |
 | [`@eikonstudio/variant`](./packages/variant) | [![npm](https://img.shields.io/npm/v/@eikonstudio/variant)](https://www.npmjs.com/package/@eikonstudio/variant) | React helpers for switching between full landing page variants |
 
 ## Getting Started
@@ -110,6 +111,7 @@ eikonstudio/
 ├── packages/
 │   ├── config/          # @eikonstudio/config
 │   ├── nano/            # @eikonstudio/nano
+│   ├── ports/           # @eikonstudio/ports
 │   └── variant/         # @eikonstudio/variant
 ├── turbo.json           # Turborepo pipeline config
 ├── tsconfig.json        # Base TypeScript config
