@@ -102,3 +102,12 @@ This repo uses [Changesets](https://github.com/changesets/changesets).
 - Build output: `dist/` (gitignored, included in npm via `"files": ["dist"]`)
 - Config files at package level: `tsconfig.json`, `tsup.config.ts`
 - No `test/` directory convention enforced yet — adopt when adding a test framework.
+
+## Cursor Cloud specific instructions
+
+- **Bun must be installed** before running any commands. The VM update script handles `bun install`, but Bun itself is installed via the VM snapshot (not the update script). If Bun is missing, install it with `curl -fsSL https://bun.sh/install | bash -s "bun-v1.3.10"` and add `~/.bun/bin` to `PATH`.
+- **No external services required.** All tests use mocks/spies. No databases, Docker, or API keys are needed for the standard dev workflow.
+- **`@eikonstudio/nano` live smoke test** (`bun run test:live` in `packages/nano`) is opt-in and requires `GEMINI_API_KEY` in `packages/nano/.env.test` plus `NANO_LIVE_TEST=1`. It is skipped by default.
+- **Pre-existing lint error** in `@eikonstudio/ports`: `KillByNameOptions` is defined but never used. This is not caused by Cloud Agent changes.
+- **Turborepo test pipeline** requires a build first (`turbo.json` declares `"test"` depends on `"build"`). Running `bun run test` automatically triggers the build.
+- **Before pushing**, always run `bun run format:check` (see `.cursor/rules/prettier-before-push.mdc`).
