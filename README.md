@@ -6,9 +6,10 @@ Monorepo for all [@eikonstudio](https://www.npmjs.com/org/eikonstudio) packages.
 
 | Package | Version | Description |
 |---------|---------|-------------|
+| [`@eikonstudio/bqquery`](./packages/bqquery) | [![npm](https://img.shields.io/npm/v/@eikonstudio/bqquery)](https://www.npmjs.com/package/@eikonstudio/bqquery) | Tiny, type-safe BigQuery query helpers with great DX |
 | [`@eikonstudio/config`](./packages/config) | [![npm](https://img.shields.io/npm/v/@eikonstudio/config)](https://www.npmjs.com/package/@eikonstudio/config) | Shared configuration |
 | [`@eikonstudio/nano`](./packages/nano) | [![npm](https://img.shields.io/npm/v/@eikonstudio/nano)](https://www.npmjs.com/package/@eikonstudio/nano) | Strongly typed Gemini and Imagen image generation helpers |
-| [`@eikonstudio/ports`](./packages/ports) | [![npm](https://img.shields.io/npm/v/@eikonstudio/ports)](https://www.npmjs.com/package/@eikonstudio/ports) | Name, inspect, and close open local TCP ports with memorable aliases |
+| [`@eikonstudio/ports`](./packages/ports) | `0.1.0` | Name, inspect, and close open local TCP ports with memorable aliases |
 | [`@eikonstudio/variant`](./packages/variant) | [![npm](https://img.shields.io/npm/v/@eikonstudio/variant)](https://www.npmjs.com/package/@eikonstudio/variant) | React helpers for switching between full landing page variants |
 
 ## Getting Started
@@ -109,6 +110,7 @@ eikonstudio/
 ├── .changeset/          # Changesets config and pending changesets
 ├── .github/workflows/   # CI and release automation
 ├── packages/
+│   ├── bqquery/         # @eikonstudio/bqquery
 │   ├── config/          # @eikonstudio/config
 │   ├── nano/            # @eikonstudio/nano
 │   ├── ports/           # @eikonstudio/ports
