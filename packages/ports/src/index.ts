@@ -12,14 +12,7 @@ import { killByName } from "./killer";
 import { pickRandomPortName } from "./namer";
 import { listPorts } from "./scanner";
 import { cleanStore as prunePersistedStore, getStore as readStore, writeStore } from "./store";
-import type {
-  KillByNameOptions,
-  NamePortsOptions,
-  NamedPort,
-  OpenPort,
-  PortsStore,
-  StoreOptions,
-} from "./types";
+import type { NamePortsOptions, NamedPort, OpenPort, PortsStore, StoreOptions } from "./types";
 
 function toPortKey(port: OpenPort) {
   return `${port.process}:${port.pid}:${port.port}:${port.protocol}:${port.endpoint}`;
