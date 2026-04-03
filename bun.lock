@@ -40,6 +40,13 @@
         "@google/genai": "^1.46.0",
       },
     },
+    "packages/ports": {
+      "name": "@eikonstudio/ports",
+      "version": "0.1.0",
+      "bin": {
+        "ports": "./dist/cli.js",
+      },
+    },
     "packages/variant": {
       "name": "@eikonstudio/variant",
       "version": "0.1.0",
@@ -94,6 +101,8 @@
     "@eikonstudio/config": ["@eikonstudio/config@workspace:packages/config"],
 
     "@eikonstudio/nano": ["@eikonstudio/nano@workspace:packages/nano"],
+
+    "@eikonstudio/ports": ["@eikonstudio/ports@workspace:packages/ports"],
 
     "@eikonstudio/variant": ["@eikonstudio/variant@workspace:packages/variant"],
 
