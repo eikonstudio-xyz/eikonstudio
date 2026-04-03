@@ -100,7 +100,13 @@ export function writeStore(store: PortsStore, options: StoreOptions = {}) {
 }
 
 function matchesOpenPort(storedPort: StoredPortName, openPort: OpenPort) {
-  return storedPort.pid === openPort.pid && storedPort.port === openPort.port;
+  return (
+    storedPort.process === openPort.process &&
+    storedPort.pid === openPort.pid &&
+    storedPort.port === openPort.port &&
+    storedPort.protocol === openPort.protocol &&
+    storedPort.endpoint === openPort.endpoint
+  );
 }
 
 export function pruneStore(store: PortsStore, openPorts: readonly OpenPort[]): CleanStoreResult {
@@ -121,12 +127,12 @@ export function pruneStore(store: PortsStore, openPorts: readonly OpenPort[]): C
 }
 
 export function getStore(
-  openPorts: readonly OpenPort[] = [],
+  openPorts: readonly OpenPort[] | undefined = undefined,
   options: StoreOptions = {},
 ): PortsStore {
   const path = resolveStorePath(options);
   const store = readStoreFile(path);
-  if (openPorts.length === 0) {
+  if (openPorts === undefined) {
     return store;
   }
 

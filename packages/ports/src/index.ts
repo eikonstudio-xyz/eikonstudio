@@ -22,7 +22,7 @@ import type {
 } from "./types";
 
 function toPortKey(port: OpenPort) {
-  return `${port.pid}:${port.port}`;
+  return `${port.process}:${port.pid}:${port.port}:${port.protocol}:${port.endpoint}`;
 }
 
 export function namePorts(options: NamePortsOptions = {}): NamedPort[] {
@@ -31,7 +31,7 @@ export function namePorts(options: NamePortsOptions = {}): NamedPort[] {
   const namesByPortKey = new Map<string, string>();
 
   for (const [name, entry] of Object.entries(store.names)) {
-    namesByPortKey.set(`${entry.pid}:${entry.port}`, name);
+    namesByPortKey.set(toPortKey(entry), name);
   }
 
   const usedNames = new Set(Object.keys(store.names));
