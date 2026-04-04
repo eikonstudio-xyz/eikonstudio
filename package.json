@@ -2,10 +2,12 @@
   "name": "eikonstudio",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "website"
   ],
   "scripts": {
     "build": "turbo run build",
+    "dev:web": "turbo run dev --filter=website",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "format": "prettier --write .",
